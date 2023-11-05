@@ -27,7 +27,7 @@ jobs:
           VPN_TLS_AUTH_KEY: ${{ secrets.PROTONVPN_TLS_AUTH_KEY }}
 
       - name: Render rmd
-        run: Rscript -e 'print("coucou !")'
+        run: Rscript -e 'print("coucou !!")'
 
       - name: Disconnect from ProtonVPN
         run: sudo killall openvpn
