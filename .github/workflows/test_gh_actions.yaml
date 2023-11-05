@@ -1,7 +1,7 @@
 name: "Test VPN"
 on:
   push:
-    branches: master
+    branches: main
 
 jobs:
   render-rmd:
