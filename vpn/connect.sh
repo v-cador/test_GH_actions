@@ -69,12 +69,12 @@ chmod 600 ta.key
 
 echo "----Initiating openvpn connection----"
 touch openvpn.log
-sudo openvpn --config "$CONFIG_PATH" --auth-user-pass .credentials --ca ca.crt --tls-auth ta.key 1 --log-append openvpn.log --daemon
+sudo openvpn --config "$CONFIG_PATH" --verb 6 --auth-user-pass .credentials --ca ca.crt --tls-auth ta.key 1 --log-append openvpn.log --daemon
 tail --pid "$$" -n +1 -F openvpn.log &
 
 LINE_NO=1
 NOW=$(date +%s)
-TIMEOUT=$((NOW + 50))
+TIMEOUT=$((NOW + 30))
 while [[ $(date +%s) -lt $TIMEOUT ]]; do
     LINES=$(tail -n +"$LINE_NO" openvpn.log)
     if echo "$LINES" | grep -q "Initialization Sequence Completed"; then
@@ -83,7 +83,7 @@ while [[ $(date +%s) -lt $TIMEOUT ]]; do
     fi
     LINE_COUNT=$(echo "$LINES" | wc -l)
     ((LINE_NO+=LINE_COUNT))
-    sleep 10
+    sleep 1
 done
 
 echo "----ERROR: Timeout reached, unable to connect----"
