@@ -74,7 +74,7 @@ tail --pid "$$" -n +1 -F openvpn.log &
 
 LINE_NO=1
 NOW=$(date +%s)
-TIMEOUT=$((NOW + 30))
+TIMEOUT=$((NOW + 50))
 while [[ $(date +%s) -lt $TIMEOUT ]]; do
     LINES=$(tail -n +"$LINE_NO" openvpn.log)
     if echo "$LINES" | grep -q "Initialization Sequence Completed"; then
@@ -83,7 +83,7 @@ while [[ $(date +%s) -lt $TIMEOUT ]]; do
     fi
     LINE_COUNT=$(echo "$LINES" | wc -l)
     ((LINE_NO+=LINE_COUNT))
-    sleep 1
+    sleep 10
 done
 
 echo "----ERROR: Timeout reached, unable to connect----"
